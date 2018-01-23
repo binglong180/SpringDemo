@@ -12,7 +12,6 @@ public class MyTest {
 	public void test(){
 		ApplicationContext ac=new ClassPathXmlApplicationContext("applicationContext.xml");
 		UserService usi = (UserService)ac.getBean("service");
-		User user=(User) ac.getBean("user");
-		usi.add(user);
+		usi.add(new User());
 	}
 }

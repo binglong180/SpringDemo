@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:aop="http://www.springframework.org/schema/aop"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 	http://www.springframework.org/schema/aop
 	http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
-	<bean id="user" class="com.spring.bean.User" p:username="牛牛" p:email="111111" p:password="122222" p:id="11111"></bean>
 	<bean id="userDao" class="com.spring.dao.UserDaoImpl"></bean>
-	<bean id="service" class="com.spring.service.UserServiceImpl" p:userDao-ref="userDao">
-	</bean>
-	<bean id="logger" class="com.spring.aop.LogerServlet"></bean>
+	<bean id="service" class="com.spring.service.UserServiceImpl" p:userDao-ref="userDao"></bean>
+	<!-- 增强类 -->
+	<bean id="theLogger" class="com.spring.aop.LogerServlet"></bean>
 	<aop:config>
-	<aop:pointcut expression="execution(public void add(com.spring.bean.User))" id="pointcut"/>
-	<aop:aspect ref="logger">
-		<aop:before method="before" pointcut-ref="pointcut"/>
-		<aop:after-returning method="afterReturning" pointcut-ref="pointcut" returning="result"/>
-	</aop:aspect>
+		<!-- 切入点 -->
+		<aop:pointcut expression="execution(public void add(com.spring.bean.User))" id="pointcut"/>
+		<aop:aspect ref="theLogger">											<!-- 引用切入点 -->
+			<aop:after-throwing method="afterThrowing" throwing="e" pointcut-ref="pointcut"/>
+		</aop:aspect>
 	</aop:config>
 </beans>
+
+
