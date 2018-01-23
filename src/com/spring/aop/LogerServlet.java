@@ -12,7 +12,7 @@ public class LogerServlet {
 				+ jp.getSignature().getName() + "参数为：" + jp.getArgs());
 	}
 
-	public void afterThrowing(JoinPoint jp, RuntimeException e) {
-		logger.info("调用了"+jp.getSignature().getName()+"抛出了"+e.getMessage());
+	public void after(JoinPoint jp) {
+		logger.info("方法结束，关闭资源"+jp.getSignature().getName());
 	}
 }
